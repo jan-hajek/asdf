@@ -35,12 +35,21 @@ class Configurator
      */
     private $logsDir;
 
-    public function __construct()
+    /**
+     * @var string
+     */
+    private $baseDir;
+
+    /**
+     * @param string $baseDir
+     */
+    public function __construct(string $baseDir)
     {
-        $this->configDir = BASE_DIR . '/app/config';
+        $this->configDir = $baseDir . '/app/config';
         $this->localNeonPath = $this->configDir . '/config.local.neon';
 
-        require_once BASE_DIR . '/vendor/autoload.php';
+        require_once $baseDir . '/vendor/autoload.php';
+        $this->baseDir = $baseDir;
     }
 
     /**
@@ -101,8 +110,8 @@ class Configurator
      */
     private function setConfiguratorPaths(array $configuratorParams)
     {
-        $this->tempDir = BASE_DIR . $configuratorParams['tempDir'];
-        $this->logsDir = BASE_DIR . $configuratorParams['logDir'];
+        $this->tempDir = $this->baseDir . $configuratorParams['tempDir'];
+        $this->logsDir = $this->baseDir . $configuratorParams['logDir'];
     }
 
     /**
@@ -114,13 +123,13 @@ class Configurator
         $configurator = new \Nette\Configurator();
         $configurator->setTempDirectory($this->tempDir);
         foreach ($configuratorParams['configs'] as $path) {
-            $configurator->addConfig(BASE_DIR . '/' . $path);
+            $configurator->addConfig($this->baseDir . '/' . $path);
         }
         $configurator->addConfig($this->localNeonPath);
 
         $configurator->addParameters(
             [
-                'BASE_DIR' => BASE_DIR,
+                'BASE_DIR' => $this->baseDir,
             ]
         );
         $configurator->setDebugMode($configuratorParams['debugMode']);
@@ -158,7 +167,7 @@ class Configurator
             $robotLoader->setCacheStorage(new FileStorage($this->tempDir));
 
             foreach ($robotLoaderParams['directories'] as $directory) {
-                $robotLoader->addDirectory(BASE_DIR . '/' . $directory);
+                $robotLoader->addDirectory($this->baseDir . '/' . $directory);
             }
             $robotLoader->autoRebuild = (bool)$robotLoaderParams['autoRebuild'];
             $robotLoader->register();

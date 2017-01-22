@@ -1,5 +1,5 @@
 <?php
-namespace Asdf\Diagnostics\Panel;
+namespace Asdf\Diagnostics\Panel\Profiling;
 
 use Nette\Http\Request;
 use Nette\Http\Session;
