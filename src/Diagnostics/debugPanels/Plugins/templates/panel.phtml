@@ -1,0 +1,47 @@
+<?php
+
+namespace Nette\Application\Diagnostics;
+
+?>
+<style>
+#nette-debug .path { color: #000 !important; }
+#nette-debug .path:hover,#nette-debug .path:active,#nette-debug .path:focus { background-color: #BBB !important }
+#nette-debug code pre {	display: inline; }
+#nette-debug .nette-warning { 	color: #D32B2B;	font-weight: bold; }
+</style>
+<h1>plugins</h1>
+<div class="tracy-inner" style="width: 800px">
+<?php foreach ($this->actions as $action) { ?>
+	<?php if (count($action['plugins'])) { ?>
+	<br />
+	<h2><strong><?= $action['method'] ?></strong></h2>
+	<?php if(count($action['params'])) { ?>
+	<table style="width: 100%">
+		<tr>
+			<th>params</th>
+		</tr>
+		<?php foreach ($action['params'] as $param) { ?>
+		<tr>
+			<td><code><?=  \Tracy\Dumper::toHtml($param, array(\Tracy\Dumper::COLLAPSE => true)) ?></code></td>
+		</tr>
+		<?php } ?>
+	</table>
+	<br />
+	<?php } ?>
+
+	<table style="width: 100%">
+		<tr>
+			<th>plugins</th>
+		</tr>
+		<?php foreach ($action['plugins'] as $plugin) { ?>
+		<tr>
+			<td><code><?php echo \Tracy\Helpers::editorLink($plugin['path'], 1)  ?></code></td>
+		</tr>
+		<?php } ?>
+	</table>
+	<br />
+	<?php } else { ?>
+	<h2><?= $action['method'] ?></h2>
+	<?php } ?>
+<?php } ?>
+</div>

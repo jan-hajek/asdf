@@ -1,0 +1,14 @@
+<h1>Profiling</h1>
+<div class="tracy-inner">
+    profiling <?= $this->enabled ? 'enabled' : 'disabled'?>
+
+    <form action="" method="post" class="form">
+        <div>
+            <?php if ($this->enabled) { ?>
+                <button type="submit" name="action" value="switch">disable</button>
+            <?php } else { ?>
+                <button type="submit" name="action" value="switch">enable</button>
+            <?php } ?>
+        </div>
+    </form>
+</div>

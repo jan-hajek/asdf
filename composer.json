@@ -1,0 +1,14 @@
+{
+  "name": "jelito/asdf",
+  "description": "",
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/jelito/asdf",
+  "autoload": {
+    "psr-4": {
+      "Asdf\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^7.1"
+  }
+}

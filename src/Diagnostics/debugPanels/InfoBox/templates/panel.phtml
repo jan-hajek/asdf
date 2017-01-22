@@ -1,0 +1,15 @@
+<h1>Info</h1>
+<div class="nette-inner">
+	<table style="width: 100%">
+		<tr>
+			<th>title</th>
+			<th>message</th>
+		</tr>
+		<?php foreach($this->messages as $message) { ?>
+		<tr <?php if($message['type'] == 'warning') { ?>style='color: #D32B2B'<?php } ?>>
+			<td><?= $message['title'] ?></td>
+			<td><?= $message['message'] ?></td>
+		</tr>
+		<?php } ?>
+	</table>
+</div>
