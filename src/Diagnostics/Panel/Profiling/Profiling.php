@@ -30,7 +30,7 @@ class Profiling implements IBarPanel
                 function () {
                     $data = tideways_disable();
                     file_put_contents(
-                        sys_get_temp_dir() . "/profiling/homer/" . uniqid() . ".xhprof",
+                        sys_get_temp_dir() . "/" . uniqid() . ".run.xhprof",
                         serialize($data)
                     );
                 }
