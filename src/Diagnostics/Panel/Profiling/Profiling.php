@@ -7,7 +7,15 @@ use Tracy\IBarPanel;
 
 class Profiling implements IBarPanel
 {
+    /**
+     * @var bool
+     */
     private $enabled;
+
+    /**
+     * @var string[]
+     */
+    private $errorMessages = [];
 
     /**
      * @param Request $request
@@ -23,12 +31,17 @@ class Profiling implements IBarPanel
         }
         $this->enabled = $sessionSection['enabled'];
 
-        if ($this->enabled) {
-            tideways_enable(TIDEWAYS_FLAGS_NO_SPANS);
+        $tidewaysExists = function_exists('tideways_enable');
+        if (!$tidewaysExists) {
+            $this->errorMessages[] = 'tideways_enable not exists';
+        }
+
+        if ($this->enabled && $tidewaysExists) {
+            \tideways_enable(TIDEWAYS_FLAGS_NO_SPANS);
 
             register_shutdown_function(
                 function () {
-                    $data = tideways_disable();
+                    $data = \tideways_disable();
                     file_put_contents(
                         sys_get_temp_dir() . "/" . uniqid() . ".run.xhprof",
                         serialize($data)
@@ -38,6 +51,9 @@ class Profiling implements IBarPanel
         }
     }
 
+    /**
+     * @return string
+     */
     public function getTab()
     {
         ob_start();
@@ -46,11 +62,17 @@ class Profiling implements IBarPanel
         return ob_get_clean();
     }
 
+    /**
+     * @return string
+     */
     public function getId()
     {
         return __CLASS__;
     }
 
+    /**
+     * @return string
+     */
     public function getPanel()
     {
         ob_start();
@@ -59,4 +81,3 @@ class Profiling implements IBarPanel
         return ob_get_clean();
     }
 }
-

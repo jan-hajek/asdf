@@ -1,5 +1,8 @@
 <h1>Profiling</h1>
 <div class="tracy-inner">
+    <?php if (count($this->errorMessages) > 0) { ?>
+        Errors: <?= implode(', ', $this->errorMessages) ?><br />
+    <?php } ?>
     profiling <?= $this->enabled ? 'enabled' : 'disabled'?>
 
     <form action="" method="post" class="form">
